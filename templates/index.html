@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mama's Hangman Game</title>
+    <link rel="stylesheet" href="{{url_for('static', filename='styles.css')}}">
+</head>
+<body>
+    <div class="container">
+    <!-- Your content goes here -->
+    <h1>Hangman Game</h1>
+    <p>Word: {{word_display}}</p>
+    <p>Guesses: {{guesses}}</p>
+    <p>Misses: {{misses}}</p>
+    <p>{{message}}</p>
+    {%if '_' not in word_display%}
+    <p>Congratulations, you won!</p>
+    <a href="{{url_for('reset')}}">Play again!</a>
+    {%elif misses>= 8 %}
+    <p>Sorry you lost! The word was {{session.word}}</p>
+    <a href="{{url_for('reset')}}">Try again!</a>
+    {%else%}
+    <form action="{{url_for('guess')}}" method="POST">
+        <input type="text" name="guess" maxlength="1" required>
+        <button type="submit">Guess</button>
+    </form>
+    {%endif%}
+    <!-- Your content goes here 
+     <script src="script.js"></script>-->
+    </div>
+</body>
+</html>
