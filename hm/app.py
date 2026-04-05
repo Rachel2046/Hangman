@@ -8,7 +8,7 @@ app = Flask(__name__)
 app.secret_key = 'test_environment'
 # API_URL = 'https://random-word-api.herokuapp.com/word?number=1'
 
-def get_random_word(min_word_length):
+def get_random_word(word_file, min_word_length):
     # response = requests.get(API_URL)
     # if response.status_code == 200:
     #     return response.json()[0].upper()
@@ -17,7 +17,7 @@ def get_random_word(min_word_length):
     """Get a random word from the wordlist using no extra memory"""
     num_words_processed = 0
     curr_word = None
-    with open(WORD_LIST, 'r') as f:
+    with open(word_file, 'r') as f:
         for word in f:
             if '(' in word or ')' in word:
                 continue
@@ -54,7 +54,7 @@ def guess():
 @app.route('/')
 def index():
     if 'word' not in session:
-        session['word'] = get_random_word(5)
+        session['word'] = get_random_word(WORD_LIST, 5)
         session['guesses'] = []
         session['misses'] = 0
         session['message'] = ''

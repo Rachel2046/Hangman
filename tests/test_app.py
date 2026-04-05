@@ -3,8 +3,7 @@ import random
 import tempfile
 
 import pytest
-from app import app, get_random_word
-
+from hm import app
 
 def test_get_random_word_respects_min_length(monkeypatch):
     words = ["apple\n", "banana\n", "pear\n", "fig\n", "grape\n"]
@@ -13,10 +12,10 @@ def test_get_random_word_respects_min_length(monkeypatch):
         temp_file.flush()
         temp_path = temp_file.name
 
-    monkeypatch.setattr("app.WORD_LIST", temp_path)
+    monkeypatch.setattr("hm.app.WORD_LIST", temp_path)
     random.seed(0)
 
-    result = get_random_word(min_word_length=5)
+    result = app.get_random_word(app.WORD_LIST, min_word_length=5)
 
     assert result is not None
     assert len(result) >= 5
@@ -32,10 +31,10 @@ def test_get_random_word_skips_parentheses(monkeypatch):
         temp_file.flush()
         temp_path = temp_file.name
 
-    monkeypatch.setattr("app.WORD_LIST", temp_path)
+    monkeypatch.setattr("hm.app.WORD_LIST", temp_path)
     random.seed(1)
 
-    result = get_random_word(min_word_length=1)
+    result = app.get_random_word(app.WORD_LIST, min_word_length=1)
 
     assert result in {"HELLO", "WORLD"}
     assert result != "(IGNORE)"
@@ -44,8 +43,8 @@ def test_get_random_word_skips_parentheses(monkeypatch):
 
 
 def test_index_initializes_session():
-    app.config["TESTING"] = True
-    with app.test_client() as client:
+    app.app.config["TESTING"] = True
+    with app.app.test_client() as client:
         response = client.get("/")
         assert response.status_code == 200
 

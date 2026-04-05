@@ -1,7 +1,7 @@
-# pycharm
+# Pycharm
 .idea/
 
-# poetry
+# Poetry
 poetry.toml
 
 # Environments
@@ -14,3 +14,9 @@ ENV/
 env.bak/
 venv.bak/
 hmenv/
+
+# Tests
+.pytest_cache/
+
+# Byte-compiled / optimized / DLL files
+__pycache__/
