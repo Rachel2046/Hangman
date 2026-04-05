@@ -17,7 +17,7 @@ def get_random_word(word_file, min_word_length):
     """Get a random word from the wordlist using no extra memory"""
     num_words_processed = 0
     curr_word = None
-    with open(word_file, 'r') as f:
+    with open(word_file, 'r', encoding='cp1252') as f:
         for word in f:
             if '(' in word or ')' in word:
                 continue
